@@ -1,0 +1,58 @@
+import React from "react"
+import "./Profile.css"
+
+// import { Table } from "reactstrap"
+// import logo from "../logo.jpg"
+
+const profile = (props) => {
+
+// text box
+
+return(
+<div className="body" style={{border:"2px solid green"}}>
+    <h1
+    style={{textAlign:"center"}}>Welcome Home.</h1>
+    {/* <img src={logo}/> */}
+    <h4
+    style={{textAlign:"center"}}>Keep calm and spill the tea</h4>
+    <div className="mypost" > {/*style={{textAlign:"right"}}*/}
+        <h3>My Posts</h3>
+    </div>
+
+    
+    <div className="form-popup" id="myForm"
+    style={{textAlign: "center", position: "relative", left: "400px", border:"1px solid purple", width:"575px"}}>
+        {/* <form action="/action_page.php" className="form-container"
+        style={{height:"300px"}}> */}
+        <form>
+            <h2>Tea Time</h2>
+            Try putting modal below instead
+            <textarea rows='2' placeholder='Spill the tea'
+            style={{
+                overflow:"hidden",
+                /* demo only: */
+                padding:"10px",
+                width:"250px",
+                height:"auto",
+                fontSize:"14px",
+                margin:"50px auto",
+                display:"block",
+                borderRadius:"10px",
+                border:"6px solid lightPink"
+            }}>
+                
+            </textarea>
+            <input type="text"  name="Tea" placeholder="What's the tea..." required
+            style={{width: "550px"}}></input>
+            {/* <label for="cope"><b>How I cope...</b></label> */}
+            <input type="text" placeholder="How I cope" name="cope"
+            style={{width:"550px"}}></input>
+            <button type="submit" class="btn"
+            style={{textAlign:"center"}}>Spill</button>
+            {/* <button type="button" className="btnclose" onClick="closeForm()">Close</button> */}
+
+        </form>
+        </div>
+    </div>
+    );
+}

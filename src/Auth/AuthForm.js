@@ -1,17 +1,8 @@
 import React, { useState } from 'react'
-// import {
-//     Switch,
-//     Route,
-//     Link,
-//     Redirect,
-//     useHistory,
-//     useLocation
-//   } from "react-router-dom"
 import Signup from './Signup'
 import Login from './Login'
-import Profile from '../Main/Profile'
 import './AuthForm.css'
-
+import '../App.css'
 
 {/* <link rel="stylesheet" type="text/css" href="AuthForm.css"> */}
 
@@ -21,14 +12,15 @@ const Auth = (props) => {//2: pull in props that will be passed down
     // const [isSigningUp, setIsSigningUp] = useState(true)
     
 return(
-    <div className="AuthDiv">
+    <div className="AuthDiv"
+    style={{textAlign:"center", fontSize:"20px", color:"#4D896F"}}>
         {/* <h2>{Signup ? 'Signup' : 'Sign In'}</h2> */}
         {/* {} shows JSX is in use */}
         {
             isLoggingIn ? <p>Ready to spill the tea? Sign in!</p> : <p>Need to spill the tea? Sign up!</p>
         }
         {
-            isLoggingIn ? <Login updateToken={props.updateToken} /> : <Signup login={props.login}/>
+            isLoggingIn ? <Login updateToken={props.updateToken}/> : <Signup updateToken={props.updateToken}/>
         }
         {
             isLoggingIn ? (

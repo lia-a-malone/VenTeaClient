@@ -1,127 +1,148 @@
-import React from 'react'
+import React, {useState} from 'react'
 import APIURL from "../Helpers/environment"
-// import {Form, FormGroup, Label, Input, Button} from 'reactstrap' //1
+import {withRouter} from 'react-router-dom'
+// import { render } from '@testing-library/react'
+// import APIURL to files that send network requests
 
-// import Profile from '../Main/Profile'
 
-// all class components need a RENDER.
-// constructor method is called FIRST when component needs to be displayed --its an IMPLEMENTATION of classes -- constructors set up the COMPONENT
-class Signup extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            // defining the "state" object
-            // "This" is the component
-            email: '',
-            password: '',
-            firstName: '',
-            lastName: '',
+const Signup = (props) => {
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('')
+    // valid form - "isFormValid" = the state variable
+    const [isFormValid, setIsFormValid] = useState(false)
+    // changing false/true
+    const handleChange = () => {
+        console.log('err')
+        if (email.length > 0 && password.length > 0){
+            setIsFormValid(true)
+        } else {
+            setIsFormValid(false)
         }
     }
-    handleSubmit(e) {
+    
+    const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log(this.state)
+        const url=`${APIURL}/user/signup`
+        // every FETCH with a URL needs to be replace to the HEROKU URL. use back tics ``
 
-        const url = `${APIURL}/user/signup`;
-            fetch(url, {
-                method: 'POST',
-                body: JSON.stringify(this.state),
-                headers: {
-                    'Content-Type' : 'application/json'
-                }
-            })
-            .then(data => data.json())
-            .then(userData => {
-                console.log(userData)
-                this.props.login(userData.sessionToken)
-            })
-            .catch(err => console.warn(err))
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
+            }),
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        })
+        .then(data => data.json()) //parse use data.json()
+        .then(userData => {   
+            props.updateToken(userData.sessionToken)
+            if(userData.sessionToken===localStorage.getItem("token"))
+            props.history.push("/profile")
+        })
+        .catch(err => console.log(err))
     }
 
-    // this.setState() updates the entire STATE object
-    render() {
-        return (
-            // returning JSX here
-            <div>
-                <form onSubmit={(e) => this.handleSubmit(e)} 
-                style={{background:"lightBlue", fontSize:"17px", width:"300px", alignContent:"left"}}>
-                    <label htmlFor="email">Email:</label>
+    // render() {
+    return (
+        <div class="container"
+        style={{border:"3px dotted #46AB79", borderRadius:"20px", width:"300px"}}>
+            <h4
+            style={{color:"#4EB187"}}>Sign up </h4>
+       <form className="signupForm" onSubmit={(e) => handleSubmit(e)}>
+        <div class="form-row"
+        style={{width:"300px", textAlign:"center", display:"inline-block"}}>
+            <div class="col" className="firstNameDiv">
+                {/* <label htmlFor="firstName"
+                style={{border:"1px solid orange"}}>First Name</label> */}
                     <input
-                    type="text"
-                    name="email"
-                    onChange={(e) => this.setState({email: e.target.value})}/>
-                    <br/>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                    type="password"
-                    name="password"
-                    onChange={(e) => this.setState({
-                        password: e.target.value
-                    })}/>
-                    <br/>
-                    <label htmlFor="firstName">First Name:</label>
-                    <input
-                    type="text"
-                    name="firstName"
-                    onChange={(e) => this.setState({
-                        firstName: e.target.value
-                    })}/>
-                    <br/>
-                    <label htmlFor="lastName">Last Name:</label>
-                    <input
-                    type="text"
-                    name="lastName"
-                    onChange={(e) => this.setState({
-                        lastName: e.target.value
-                    })}/>
-                    <input type="submit"/>
-                    {/* <Profile></Profile> */}
-                </form>
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        placeholder="First Name"
+                        className="input-field"
+                        onChange={(e) => {
+                            setFirstName(e.target.value);
+                            handleChange()
+                            console.log(isFormValid)
+                        }}
+                    />
             </div>
-        )
-    }
+            <div class="col" className="lastNameDiv">
+                {/* <label htmlFor="lastName"
+                style={{border:"1px solid green"}}>Last name</label> */}
+                <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    placeholder="Last Name"
+                    className="input-field"
+                    onChange={(e) => {
+                        setLastName(e.target.value);
+                        // console.log(email);
+                        // console.log(password);
+                        handleChange()
+                        console.log(isFormValid)
+                    }}
+                />
+            </div>
+        </div>
+        <br/>
+        <div class="form-row"
+        style={{width:"300px", textAlign:"center", display:"inline-block"}}>
+            <div class="col" className="emailDiv">
+                {/* <label htmlFor="email"
+                style={{border:"1px solid pink"}}>Email</label> */}
+                <input
+                style={{display:"inline-block"}}
+                    type="text"
+                    id="emailField"
+                    name="email"
+                    placeholder="Email"
+                    className="input-field"
+                    onChange={(e) => {
+                        setEmail(e.target.value);
+                        // console.log(email);
+                        // console.log(password);
+                        handleChange()
+                        console.log(isFormValid)
+                    }}
+                />
+            </div>
+            <div class="col" className="pwordDiv">
+                {/* <label htmlFor="password"
+                style={{border:"1px solid yellow"}}>
+                    Password</label> */}
+                <input
+                style={{display:"inline-block"}}
+                    type="password"
+                    id="pWordField"
+                    name="password"
+                    placeholder="Password"
+                    className="input-field"
+                    onChange={(e) => {
+                        setPassword(e.target.value);
+                        // console.log(email)
+                        // console.log(password)
+                        handleChange()
+                        console.log(isFormValid)
+                    }}
+                />
+            </div>
+            </div>
+                <input type="submit" disabled={!isFormValid}/>
+            </form>
+        </div>
+    )
+    // }
 }
 
-export default Signup
-
-// CODE FOR USERNAME (OPTIONAL)
-// const Signup = (props) => {
-//     const [username, setUsername] = useState('')
-//     const [password, setPassword] = useState('')
+export default withRouter(Signup)
 
 
-//     const handleSubmit = (event) => { //1
-//         event.preventDefault()
-//         fetch("http://localhost:3000/api/user", {
-//             method: 'POST',
-//             body: JSON.stringify({user:{username: username, password: password}}),
-//             headers: new Headers({
-//                 'Content-Type': 'application/json'
-//             })
-//         }).then(
-//             (response) => response.json()
-//         ).then((data) => {
-//             props.updateToken(data.sessionToken)
-//         })
-//         // console.log(username, password)
-//     }
-
-//     return(
-//         <div>
-//             <h1>Sign Up</h1>
-//             <Form onSubmit={handleSubmit}> 
-//                 <FormGroup>
-//                     <Label htmlFor="username">Username</Label>
-
-//                     <Input onChange={(e) => setUsername(e.target.value)} name="username" value={username} /> 
-//                 </FormGroup>
-//                 <FormGroup>
-//                     <Label htmlFor="password">Password</Label>
-//                     <Input onChange={(e) => setPassword(e.target.value)} name="password" value={password}/>
-//                 </FormGroup>
-//                 <Button type="submit">Signup</Button>
-//             </Form>
-//         </div>
-//     )
-// }
 

@@ -9,7 +9,7 @@ import Home from './Main/Home'
 import Boards from './Main/Boards'
 import Posts from './Main/Posts'
 import Profile from './Main/Profile'
-
+import './App.css'
 function App () {
   
   const [sessionToken, setSessionToken] = useState('') //1: useState hook creates new state var (sessionToken) 
@@ -38,14 +38,17 @@ function App () {
   
   return (
       <Router>
-        <div>
-            <Sitebar></Sitebar>
+        <div
+        style={{fontSize:"20px"}}>
+            <Sitebar sessionToken={sessionToken} clearToken={clearToken}></Sitebar>
           <Switch>
             <Route path="/home">
               <Home/>
             </Route>
+            <Route path="/front">
+            </Route>
             <Route path="/profile">
-              <Profile/>
+              <Profile sessionToken={sessionToken} updateToken={updateToken}/>
             </Route>
             <Route path="/myposts">
               <Posts/>
@@ -54,7 +57,7 @@ function App () {
               <Boards/>
             </Route>
             <Route path="/">
-              <Auth updateToken={updateToken}/>
+              <Auth updateToken={updateToken} sessionToken={sessionToken} style={{background:"359582"}}/>
             </Route>
             </Switch>
         </div>

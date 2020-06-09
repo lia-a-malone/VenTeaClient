@@ -1,40 +1,135 @@
-import React from "react"
-import "./Profile.css"
+import React, { useState, useEffect } from 'react';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, Row, Col} from 'reactstrap';
+import APIURL from "../Helpers/environment"
+// import { logDOM } from '@testing-library/react';
+import Post from './Post';
 
-const profile = (props) => {
-    function openForm() {
-        document.getElementById("myForm").style.display = "block"
+const Profile = (props) => {
+
+    // const postID = document.getElementById("postID").readOnly=true;
+
+
+    const [description, setDescription] = useState('');
+    const [posts, setPosts] = useState([]);
+    const [erase, setErase] = useState(false)
+    const allPosts = () => {
+        console.log("All posts", props.sessionToken)
+    fetch(`${APIURL}/log/allposts`, {
+        method: 'GET',
+        headers: {
+            'Content-Type' : 'application/json',
+            "Authorization" : props.sessionToken
+        }
+    }) .then (res => res.json())
+    .then (data => {
+        console.log(data)
+        setPosts(data)
+    })
     }
-    function closeForm() {
-        document.getElementById("myForm").style.display = "none"
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('Your tea has been spilled')
+
+        fetch(`${APIURL}/log/newpost`, {
+            method: 'POST',
+            body: JSON.stringify({
+                text: description
+            }),
+            headers: {
+                'Content-Type' : 'application/json',
+                "Authorization" : props.sessionToken
+
+            }
+        })
+        .then(data => data.json())
+        .then(userData => {
+            console.log(userData);
+
+            props.token(userData.sessionToken)
+        })
+        .catch(err => console.warn(err))
+        allPosts()
     }
-return(
-<div className="body">
-    THIS IS THE PROFILE JS PAGE
-    {/* <div className="newDiv"> */}
-    <div className="form-popup" id="myForm">
-        <form action="/action_page.php" className="form-container">
-            <h1>Tea Time</h1>
-            <label for="title"><b>Title</b></label>
-            <input type="text"  name="Title" required></input>
-            <label for="description"><b>Spill the tea...</b></label>
-            <input type="text"  name="Tea" required></input>
-            <label for="cope"><b>How I cope...</b></label>
-            <input type="text" placeholder="Optional" name="cope"></input>
-            <button type="submit" class="btn">Post</button>
-            <button type="button" className="btn close" onClick="closeForm()">Close</button>
-        </form>
-    {/* <button className="newpost"
-    style={{color:"orange"}}>
-        New Post
-    </button> */}
-        {/* id="popup" onClick="div_show()" */}
-    {/* <div className="post">
-        <div className="edit">Edit</div>
-        <div className="delete">delete</div>
-    </div> */}
-    </div>
-</div>
-)
+    // useEffect(() => setTimeout(allPosts, 500), [])
+
+    //NEW POST MODAL
+    const {
+    //   buttonLabel,
+    teaPot,
+      className
+    } = props;
+  
+    const [newPost, setNewPost] = useState(false);
+    const [onClose, setOnClose] = useState(true);
+    const [logID, setlogID] = useState(0);
+    const mixButton = () => {
+        if (erase===true)
+        {fetch(`${APIURL}/log/${logID}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type' : 'application/json',
+                Authorization : props.sessionToken
+            }
+        })}
+        else{
+        console.log('Your tea has been spilled')
+        }
+    }
+    const toggle = () => setNewPost(!newPost);
+    // const changeOnClose = e => {
+    //     let value = e.target.value;
+    //     setOnClose(JSON.parse(value));
+    // }
+  
+    return (
+        <div>
+            <h1
+            style={{textAlign:"center", color:"#50CF90"}}>
+                Welcome back!
+            </h1>
+    
+                <h2
+                style={{textAlign:"center", color:"#49B680"}}>My Tea Pot</h2>
+
+            {/* NEW POST MODAL */}
+            <Form onSubmit={(e) => e.preventDefault()}
+            style={{fontSize:"20px", textAlign:"center"}}>
+                {/* <h2>something here</h2> */}
+                <Button color="lightBlue" onClick={()=>{toggle (); setErase(false)}}
+                style={{color:"#17A25D", fontSize:"25px"}}>New Post</Button>
+            </Form>
+            <Modal isOpen={newPost} toggle={toggle} className={className} onClose={onClose}>
+                <br/>
+                <ModalHeader toggle={toggle}>Spill the tea..</ModalHeader>
+                <ModalBody>
+                    <Input type="textarea" placeholder="What's the tea?" rows={5} value={description} onChange={e => setDescription(e.target.value)} />
+                </ModalBody>
+                <ModalFooter>
+                    <Button color="primary" onClick={toggle} 
+                    onClick={(e) => handleSubmit(e)}>Post</Button>
+                    <Button color="secondary" onClick={()=>{mixButton (); toggle(); setDescription("") }}>Close</Button>
+                </ModalFooter>
+            </Modal>
+            <div>
+            <br/>
+{/* MY POSTS MODAL */}
+                <Row>{posts.map((post,index) => {
+                    return(
+                       <Col md='7'>
+                       <Post text={post.text} handleSubmit={handleSubmit}
+                        erase={erase} setErase={setErase} mixButton={mixButton} setlogID={setlogID} id={post.id} key={index}
+                        />                        
+                        </Col>
+                    )
+                })}
+                </Row>
+            </div>
+        </div>
+    );
 }
-export default profile
+
+export default Profile
+
+// CLEAR THE TEXT FIELD WHEN BUTTON IS PRESSED : PLAY WITH WHICH "POST" IT GOES TO!
+// {()=>{toggle(); setDescription("")}} 

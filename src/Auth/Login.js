@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import APIURL from "../Helpers/environment"
+import {withRouter} from 'react-router-dom'
 // import APIURL to files that send network requests
-// import {Redirect} from "react-router-dom"
+
 
 const Login = (props) => {
     const [email, setEmail] = useState('');
@@ -34,19 +35,25 @@ const Login = (props) => {
             }
         })
         .then(data => data.json()) //parse use data.json()
-        .then(userData => props.updateToken(userData.sessionToken))
+        .then(userData => {   
+            props.updateToken(userData.sessionToken)
+        if( userData.sessionToken===localStorage.getItem("token"))
+            props.history.push("/profile")
+        })
         .catch(err => console.log(err))
     }
 
     return (
-        <div 
-        style={{background:"orange", width:"300px", padding:"5px"}}>
-            <h4>Sign in </h4>
-       <form className="loginForm" onSubmit={(e) => handleSubmit(e)}>
+        <div className="loginBodyDiv">
+        <div class="container"
+        style={{ fontSize:"15px", fontFamily:"'Playfair Display', serif", textAlign:"center", border:"4px dotted #5A9E7C",borderRadius:"30px", width:"300px"}}> {/* position:"inherit"*/}
+       <form className="loginForm" onSubmit={(e) => handleSubmit(e)}
+       style={{display:"inline-block"}}>
+            <h3
+            style={{color:"#4EB187"}}>Sign in </h3>
             <div className="emailDiv">
-                <label htmlFor="email"
-                style={{padding:"2px"}}>Email</label>
-                <br/>
+                <h4><label htmlFor="email"
+                style={{padding:"2px", color:"#208C57"}}>Email</label></h4>
                 <input
                     type="text"
                     id="emailField"
@@ -63,10 +70,9 @@ const Login = (props) => {
             </div>
                 <br/>
             <div className="pwordDiv">
-                <label htmlFor="password"
-                style={{padding:"2px"}}>
-                    Password</label>
-                <br/>
+                <h4><label htmlFor="password"
+                style={{padding:"2px", color:"#208C57"}}>
+                    Password</label></h4>
                 <input
                     type="password"
                     id="pWordField"
@@ -84,11 +90,13 @@ const Login = (props) => {
                 <br/>
                 <input type="submit" disabled={!isFormValid}/>
             </form>
+            <br/>
         </div>
+     </div>
     )
 }
 
-export default Login
+export default withRouter(Login)
 
 
 
