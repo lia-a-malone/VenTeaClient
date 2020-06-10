@@ -88,7 +88,6 @@ const Profile = (props) => {
             style={{textAlign:"center", color:"#50CF90"}}>
                 Welcome back!
             </h1>
-    
                 <h2
                 style={{textAlign:"center", color:"#49B680"}}>My Tea Pot</h2>
 

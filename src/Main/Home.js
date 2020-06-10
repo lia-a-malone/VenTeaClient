@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react'
+import ttl from "../transtealogo.png"
 //import {useEffect, useState} from 'react'
-
+// import Auth from "../Auth/AuthForm"
  const Home = (props) => {
-    //  const explanationText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet mattis vulputate enim nulla aliquet porttitor. A pellentesque sit amet porttitor eget. Ridiculus mus mauris vitae ultricies leo integer malesuada nunc. Faucibus vitae aliquet nec ullamcorper sit. Id neque aliquam vestibulum morbi blandit. Nam at lectus urna duis."
+
 
     //  first param = function, second = array to monitor
     useEffect(() => {
@@ -22,13 +23,14 @@ import React, {useEffect} from 'react'
     }, [])
 
      return (
-         <div class="container">
-             <img src="logo.jpg"/>
+         <div class="container"
+         style={{textAlign:"center"}}>
+             <p
+             style={{display:"inline-block"}}>
+                 <img src={ttl} width="350px" height="350px"/></p>
              <p style={{textAlign: 'center', color:"#319262"}}>
                  Welcome to VenTea! VenTea is a place where you can vent about your days and your anxieties. We are a supportive community that does not judge eachother. You can post private notes or join the Tea Parties and interact with others in the community. VenTea is a safe place where you can open up and be surrounded by positivity and support. Keep calm and spill the tea!
              </p>
-             {/* <Post post={post}/> */}
-             {/*value on left match component value on right match the text */}
             {/* name of prop={value of prop} */}
          </div>
      )

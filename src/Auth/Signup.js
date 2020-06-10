@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import APIURL from "../Helpers/environment"
 import {withRouter} from 'react-router-dom'
+import borderLogo from "../teaborderlog.png"
 // import { render } from '@testing-library/react'
 // import APIURL to files that send network requests
 
@@ -50,8 +51,9 @@ const Signup = (props) => {
 
     // render() {
     return (
-        <div class="container"
-        style={{border:"3px dotted #46AB79", borderRadius:"20px", width:"300px"}}>
+        <div className="container borderBox"
+        style={{borderRadius:"20px", width:"500px", backgroundImage:`url(${borderLogo})`, backgroundSize:"cover", height:"500px", paddingTop:"150px", backgroundPosition:"center"}}>
+            {/* border:"3px dotted #46AB79" */}
             <h4
             style={{color:"#4EB187"}}>Sign up </h4>
        <form className="signupForm" onSubmit={(e) => handleSubmit(e)}>
@@ -135,6 +137,7 @@ const Signup = (props) => {
                 />
             </div>
             </div>
+            <br/>
                 <input type="submit" disabled={!isFormValid}/>
             </form>
         </div>

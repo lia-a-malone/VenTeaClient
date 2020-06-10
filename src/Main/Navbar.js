@@ -50,7 +50,6 @@ const Sitebar = (props) => {
                 My Posts
               </NavLink>
             </NavItem> */}
-                {/* check to add somethingto "to" */}
             {!props.sessionToken ?  <NavItem>
               <NavLink tag={Link} to="/">
                 Log In/Sign Up

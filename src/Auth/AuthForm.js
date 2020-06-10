@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Signup from './Signup'
 import Login from './Login'
 import './AuthForm.css'
-import '../App.css'
+// import '../App.css'
 
 {/* <link rel="stylesheet" type="text/css" href="AuthForm.css"> */}
 

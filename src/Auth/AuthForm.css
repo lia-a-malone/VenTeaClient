@@ -5,3 +5,7 @@
 .emailDiv{
     text-align: center;
 }
+
+.borderBox{
+    border-image: url("../teaborderlog.png") 33;
+}

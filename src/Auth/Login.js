@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import APIURL from "../Helpers/environment"
 import {withRouter} from 'react-router-dom'
+import borderLogo from "../teaborderlog.png"
 // import APIURL to files that send network requests
 
 
@@ -46,7 +47,8 @@ const Login = (props) => {
     return (
         <div className="loginBodyDiv">
         <div class="container"
-        style={{ fontSize:"15px", fontFamily:"'Playfair Display', serif", textAlign:"center", border:"4px dotted #5A9E7C",borderRadius:"30px", width:"300px"}}> {/* position:"inherit"*/}
+            style={{borderRadius:"20px", width:"500px", backgroundImage:`url(${borderLogo})`, backgroundSize:"cover", height:"500px", paddingTop:"150px", backgroundPosition:"center"}}>
+             {/* position:"inherit"*/}
        <form className="loginForm" onSubmit={(e) => handleSubmit(e)}
        style={{display:"inline-block"}}>
             <h3
@@ -68,7 +70,6 @@ const Login = (props) => {
                     }}
                 />
             </div>
-                <br/>
             <div className="pwordDiv">
                 <h4><label htmlFor="password"
                 style={{padding:"2px", color:"#208C57"}}>
